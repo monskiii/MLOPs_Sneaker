@@ -31,7 +31,7 @@ def draw_boxes(image, predictions):
             cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
         
             # Draw background rectangle for text
-            text_size = cv2.getTextSize(f"{label} ({confidence:.2f})", cv2.FONT_HERSHEY_DUPLEX, 1, 2)[0]
+            text_size = cv2.getTextSize(f"{label} ({confidence:.2f})", cv2.FONT_HERSHEY_DUPLEX, 0.5, 1)[0]
             cv2.rectangle(image, (x1, y1 - text_size[1] - 10), (x1 + text_size[0], y1), (0,255,0), -1)
             
             # Draw text with increased size and thickness
