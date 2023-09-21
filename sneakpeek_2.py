@@ -20,7 +20,7 @@ def draw_boxes(image, predictions):
         x2 = int(round(cx + w / 2))
         y2 = int(round(cy + h / 2))
 
-        hort_label = pred.get("class", "Unknown")
+        short_label = pred.get("class", "Unknown")
         label = label_map.get(short_label, "Unknown") 
         
         confidence = pred.get("confidence", 0)  # Safely get the confidence value
@@ -28,7 +28,7 @@ def draw_boxes(image, predictions):
         # Check for valid coordinates before drawing
         if all(val is not None for val in [x1, y1, x2, y2]):
             cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
-            cv2.putText(image, f"{label} ({confidence:.2f})", (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+            cv2.putText(image, f"{label} ({confidence:.2f})", (x1, y1 + 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
     return image
 
