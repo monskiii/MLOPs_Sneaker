@@ -27,15 +27,15 @@ def draw_boxes(image, predictions):
 
         # Check for valid coordinates before drawing
         if all(val is not None for val in [x1, y1, x2, y2]):
-        # Draw rectangle
-        cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
-    
-        # Draw background rectangle for text
-        text_size = cv2.getTextSize(f"{label} ({confidence:.2f})", cv2.FONT_HERSHEY_DUPLEX, 1, 2)[0]
-        cv2.rectangle(image, (x1, y1 - text_size[1] - 10), (x1 + text_size[0], y1), (0,255,0), -1)
+            # Draw rectangle
+            cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
         
-        # Draw text with increased size and thickness
-        cv2.putText(image, f"{label} ({confidence:.2f})", (x1, y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 2)
+            # Draw background rectangle for text
+            text_size = cv2.getTextSize(f"{label} ({confidence:.2f})", cv2.FONT_HERSHEY_DUPLEX, 1, 2)[0]
+            cv2.rectangle(image, (x1, y1 - text_size[1] - 10), (x1 + text_size[0], y1), (0,255,0), -1)
+            
+            # Draw text with increased size and thickness
+            cv2.putText(image, f"{label} ({confidence:.2f})", (x1, y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 2)
 
 
     return image
