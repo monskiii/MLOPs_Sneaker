@@ -72,5 +72,5 @@ if uploaded_file is not None:
     label = label_map.get(short_label, "Unknown") 
     
     st.subheader("What is it?")
-    st.text(f"It is a/an {label}")
+    st.text(f"It is a/an {short_label}")
     st.image(annotated_image, use_column_width=True)
