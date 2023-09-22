@@ -6,7 +6,7 @@ import numpy as np
 
 # Function to draw bounding boxes and labels
 def draw_boxes(image, predictions):
-    
+    label_map = {"JD":"Jordan 1", "VM": "Nike Vapormax", "UB":"Adidas Ultraboost", "NM":"Adidas NMD", "AM": "Nike AirMax", "YZ":"Adidas Yeezy"}
     for pred in predictions.get("predictions", []):  # Safely get the 'predictions' key
         cx = pred.get("x", 0)  # Center x-coordinate
         cy = pred.get("y", 0)  # Center y-coordinate
