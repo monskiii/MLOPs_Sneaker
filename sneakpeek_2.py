@@ -21,6 +21,7 @@ def draw_boxes(image, predictions):
 
         short_label = pred.get("class", "Unknown")
         label = label_map.get(short_label, "Unknown") 
+        detected_label = label  # Set the detected label
         
         confidence = pred.get("confidence", 0)  # Safely get the confidence value
 
@@ -37,7 +38,7 @@ def draw_boxes(image, predictions):
             cv2.putText(image, f"{label} ({confidence:.2f})", (x1, y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1)
 
 
-    return image
+    return image, detected_label
 
 
 # Initialize Roboflow model
@@ -47,7 +48,6 @@ model = project.version(1).model
 
 st.title("SneakPeek - Know Your Kicks!")
 
-label_map = {"JD":"Jordan 1", "VM": "Nike Vapormax", "UB":"Adidas Ultraboost", "NM":"Adidas NMD", "AM": "Nike AirMax", "YZ":"Adidas Yeezy"}
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
 
 if uploaded_file is not None:
@@ -63,14 +63,11 @@ if uploaded_file is not None:
     
     # Extract JSON output
     pred_json = result.json()
-    
-    # Draw bounding boxes and labels
-    annotated_image = draw_boxes(image_rgb, pred_json)
 
-    # Predicted Label
-    short_label = pred_json.get("class", "Unknown")
-    label = label_map.get(short_label, "Unknown") 
+    # Draw bounding boxes and labels
+    annotated_image, detected_label = draw_boxes(image_rgb, pred_json)
     
     st.subheader("What is it?")
-    st.text(f"It is a/an {short_label}")
+    if detected_label:
+        st.text(f"It is a/an {detected_label}")
     st.image(annotated_image, use_column_width=True)
