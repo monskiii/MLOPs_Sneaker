@@ -38,7 +38,7 @@ def draw_boxes(image, predictions):
             cv2.putText(image, f"{label} ({confidence:.2f})", (x1, y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1)
 
 
-    return image, label
+    return image
 
 
 # Initialize Roboflow model
@@ -65,8 +65,8 @@ if uploaded_file is not None:
     pred_json = result.json()
     
     # Draw bounding boxes and labels
-    annotated_image, pred_label = draw_boxes(image_rgb, pred_json)
+    annotated_image = draw_boxes(image_rgb, pred_json)
     
     st.subheader("What is it?")
-    st.text(f"It is a/an {pred_label}")
+    st.text(f"It is a/an {label}")
     st.image(annotated_image, use_column_width=True)
