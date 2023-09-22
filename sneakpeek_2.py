@@ -6,7 +6,6 @@ import numpy as np
 
 # Function to draw bounding boxes and labels
 def draw_boxes(image, predictions):
-    label_map = {"JD":"Jordan 1", "VM": "Nike Vapormax", "UB":"Adidas Ultraboost", "NM":"Adidas NMD", "AM": "Nike AirMax", "YZ":"Adidas Yeezy"}
     
     for pred in predictions.get("predictions", []):  # Safely get the 'predictions' key
         cx = pred.get("x", 0)  # Center x-coordinate
@@ -48,6 +47,7 @@ model = project.version(1).model
 
 st.title("SneakPeek - Know Your Kicks!")
 
+label_map = {"JD":"Jordan 1", "VM": "Nike Vapormax", "UB":"Adidas Ultraboost", "NM":"Adidas NMD", "AM": "Nike AirMax", "YZ":"Adidas Yeezy"}
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
 
 if uploaded_file is not None:
@@ -66,6 +66,10 @@ if uploaded_file is not None:
     
     # Draw bounding boxes and labels
     annotated_image = draw_boxes(image_rgb, pred_json)
+
+    # Predicted Label
+    short_label = pred_json.get("class", "Unknown")
+    label = label_map.get(short_label, "Unknown") 
     
     st.subheader("What is it?")
     st.text(f"It is a/an {label}")
