@@ -31,14 +31,14 @@ def draw_boxes(image, predictions):
             cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
         
             # Draw background rectangle for text
-            text_size = cv2.getTextSize(f"{label} ({confidence:.2f})", cv2.FONT_HERSHEY_DUPLEX, 0.5, 1)[0]
+            text_size = cv2.getTextSize(f"{label} ({confidence:.2f})", cv2.FONT_HERSHEY_DUPLEX, 1, 1)[0]
             cv2.rectangle(image, (x1, y1 - text_size[1] - 10), (x1 + text_size[0], y1), (0,255,0), -1)
             
             # Draw text with increased size and thickness
-            cv2.putText(image, f"{label} ({confidence:.2f})", (x1, y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255), 1)
+            cv2.putText(image, f"{label} ({confidence:.2f})", (x1, y1 - 10), cv2.FONT_HERSHEY_DUPLEX, 1, (255, 255, 255), 1)
 
 
-    return image
+    return image, label
 
 
 # Initialize Roboflow model
@@ -65,7 +65,8 @@ if uploaded_file is not None:
     pred_json = result.json()
     
     # Draw bounding boxes and labels
-    annotated_image = draw_boxes(image_rgb, pred_json)
+    annotated_image, pred_label = draw_boxes(image_rgb, pred_json)
     
     st.subheader("What is it?")
+    st.text(f"It is a/an {pred_label}")
     st.image(annotated_image, use_column_width=True)
